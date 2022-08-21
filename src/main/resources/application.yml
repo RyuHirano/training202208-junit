@@ -1,0 +1,27 @@
+# MyBatis - MySQLの設定
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/study
+    username: root # 実際の開発では直接記述しないでください
+    password: password # 実際の開発では直接記述しないでください
+
+mybatis:
+  configuration:
+    mapUnserScoreToCamelCase: true
+  mapper-locations: "classpath*:mybatis/mapper/*Mapper.xml"
+
+# Swagger
+springdoc:
+  spring-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    enabled: true
+  cache:
+    disabled: true
+
+# Qiita
+api:
+  uri: https://qiita.com/api/v2/items
+
+

@@ -1,0 +1,114 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.2'
+	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+	id 'java'
+
+	// Spotless
+	// https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
+	id "com.diffplug.spotless" version "6.7.2"
+
+	// checkstyle
+	id 'checkstyle'
+
+	// jacoco
+	id 'jacoco'
+}
+
+apply plugin: "com.diffplug.spotless"
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+// ライブラリのバージョンを指定する
+ext.versions = [
+		'apacheCommonsLang3': '3.12.0',
+		'apacheCommonsCollections': '4.4',
+		'apacheCommonBeanUtils': '1.9.4',
+		'myBatisStarter': '2.2.2',
+		'mySqlConnector': '8.0.30',
+		'h2': '2.1.214',
+		'swagger': '1.6.9'
+]
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.projectlombok:lombok'
+
+
+	// logback
+	// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+	implementation 'ch.qos.logback:logback-classic:1.2.11'
+
+	// JUnit 5
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'junit', module:'junit'
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+
+	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+	implementation "org.apache.commons:commons-lang3:${versions.apacheCommonsLang3}"
+
+	// https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
+	implementation "org.apache.commons:commons-collections4:${versions.apacheCommonsCollections}"
+
+	// https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
+	implementation "commons-beanutils:commons-beanutils:${versions.apacheCommonBeanUtils}"
+
+	// MyBatis
+	// https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
+	implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${versions.myBatisStarter}"
+
+	// MySQL
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	implementation "mysql:mysql-connector-java:${versions.mySqlConnector}"
+
+	// H2
+	// https://mvnrepository.com/artifact/com.h2database/h2
+	testImplementation "com.h2database:h2:${versions.h2}"
+
+	// Swagger(springdoc)
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
+	implementation "org.springdoc:springdoc-openapi-ui:${versions.swagger}";
+}
+
+checkstyle {
+	toolVersion = '10.3' // リリースノートを確認し最新バージョンにする。しないとエラーになる。
+	configFile = file("${rootDir}/config/checkstyle/google_checks.xml")
+}
+
+
+// テストはcheckstyleの対象外にする
+checkstyleTest.enabled = false
+
+spotless {
+	java {
+		googleJavaFormat()
+	}
+}
+
+// jacoco
+test {
+	finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+	dependsOn test
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
