@@ -1,4 +1,4 @@
-package com.example.training202208junit.presentation;
+package com.example.training202208junit.controller;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;

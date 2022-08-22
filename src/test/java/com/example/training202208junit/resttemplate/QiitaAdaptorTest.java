@@ -61,10 +61,6 @@ class QiitaAdaptorTest {
         .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
         .andRespond(MockRestResponseCreators.withServerError());
 
-    final QiitaResponse response = new QiitaResponse();
-    response.setTitle("123");
-    final List<QiitaResponse> expected = List.of(response);
-
     // 実行&検証
     Assertions.assertThatThrownBy(() -> qiitaAdaptor.getQiitaArticleList())
         .isInstanceOf(RestClientException.class);

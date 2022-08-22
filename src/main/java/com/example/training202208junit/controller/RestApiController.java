@@ -1,4 +1,4 @@
-package com.example.training202208junit.presentation;
+package com.example.training202208junit.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
