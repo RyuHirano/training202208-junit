@@ -38,7 +38,8 @@ ext.versions = [
 		'myBatisStarter': '2.2.2',
 		'mySqlConnector': '8.0.30',
 		'h2': '2.1.214',
-		'swagger': '1.6.9'
+		'swagger': '1.6.9',
+		'mockitoInline': '4.7.0'
 ]
 
 dependencies {
@@ -84,6 +85,10 @@ dependencies {
 	// Swagger(springdoc)
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
 	implementation "org.springdoc:springdoc-openapi-ui:${versions.swagger}";
+
+	// https://mvnrepository.com/artifact/org.mockito/mockito-inline
+	testImplementation "org.mockito:mockito-inline:${versions.mockitoInline}"
+
 }
 
 checkstyle {
